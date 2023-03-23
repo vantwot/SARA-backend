@@ -7,7 +7,7 @@ name: Build and deploy Python app to Azure Web App - SARAUV
 on:
   push:
     branches:
-      - main
+      - login
   workflow_dispatch:
 
 jobs:
