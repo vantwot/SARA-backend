@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import './App.css'
 import { Login } from './login-register/Login';
-import { Register } from "./login-register/Register";
 import { Navbar } from "./bars/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Profile from "./pages/profile";
@@ -17,10 +16,9 @@ function App() {
 
   return (
     
-    <div className = {(currentForm === 'login' || currentForm === 'register') ? 'App-login' : 'App-page'}>
+    <div className = {(currentForm === 'login') ? 'App-login' : 'App-page'}>
       {
         currentForm === 'login' ? <Login onFormSwitch={toggleForm} /> :
-          currentForm === 'page' ?
             <>
               <Navbar />
               <Routes>
@@ -28,8 +26,7 @@ function App() {
                 <Route path='/profile' exact element={<Profile />} />
                 <Route path='/statistics' exact element={<Statistics />} />
               </Routes>
-            </> : 
-              <Register onFormSwitch={toggleForm} />
+            </>
       }
     </div>
   );
