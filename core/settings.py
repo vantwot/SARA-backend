@@ -111,9 +111,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://sara_mxi3_user:eyQRqOV7YtKtCMVmhJeXGqaIPAxc3HBk@dpg-cge64fg2qv2bbhnem2e0-a.oregon-postgres.render.com/sara_mxi3',
-        conn_max_age=600,
-        conn_health_checks=True,
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'db-sara',
+        'USER': 'tsubaki@db-sara',
+        'PASSWORD': 'Univalle2023',
+        'HOST': 'db-sara.postgres.database.azure.com',
+        'PORT': '5432'
     )
 }
 
