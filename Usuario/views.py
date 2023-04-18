@@ -46,13 +46,14 @@ class UserViewSet(ModelViewSet):
         new_password = PasswordSerializer(data=request.data)
         new_password.is_valid(raise_exception=True)
 
-        user = authenticate(username=new_password.data['username'], password=new_password.data['password'])
+        #user = authenticate(username=new_password.data['username'], password=new_password.data['password'])
+        user = User.objects.filter(username=new_password.data['username'], identification=new_password.data['identification'])
 
-        if user is None:
+        if len(user) == 0:
             return Response({"message:": "Credenciales incorrectas"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        user.set_password(new_password.data['new_password'])
-        user.save()
+        user[0].set_password(new_password.data['new_password'])
+        user[0].save()
 
         return Response({"message:": "Se ha cambiado tu contraseña"})
     

@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class PasswordSerializer(serializers.Serializer):
     username = serializers.CharField(allow_blank=False, allow_null=False)
-    password = serializers.CharField(allow_blank=False, allow_null=False)
+    identification = serializers.CharField(allow_blank=False, allow_null=False)
     new_password = serializers.CharField(allow_blank=False, allow_null=False)
     repeat_password = serializers.CharField(allow_blank=False, allow_null=False)
 
