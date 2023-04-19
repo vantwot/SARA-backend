@@ -1,20 +1,44 @@
 import React, { useState } from "react";
 import "./logreg.css";
 import univalle from "./Univalle.svg.png";
-export const Login = (props) => {
+import { useNavigate } from "react-router-dom";
+const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let check = await clientCredentials(username, password);
-
-    if (check) {
-      console.log("asiogvasdovfsdapvaosv");
-      props.onFormSwitch("http://localhost:3000/profile");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+// si el usuario esta registrado status codigo 200 y enviarlo al dashboard
+// si el usuario no esta registrado status codigo diferente de 200 y mostrar mensaje de error
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!username || !password) {
+    setError("Todos los campos son obligatorios");
+    return;
+  }
+  try {
+    const requestOptions = {
+      mode: "cors",
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    };
+    console.log(requestOptions);
+    const response = await fetch('https://saraendpoint.azurewebsites.net/login/', requestOptions);
+    if (!response.ok) {
+      throw new Error('Error en la solicitud');
     }
-  };
-  //console.log(clientCredentials(code, pass));
+    const data = await response.json();
+    console.log(data);
+    
+    navigate("profile/"); 
+  } catch (error) {
+    console.log(error);
+    setError("Ha ocurrido un error al iniciar sesión");
+  }
+};
 
   return (
     <div className="background">
@@ -119,20 +143,4 @@ export const Login = (props) => {
   );
 };
 
-async function clientCredentials(username, password) {
-  let data = await fetch(`https://saraendpoint.azurewebsites.net/user/`);
-  //use string literals
-  let dataJson = await data.json();
-  //console.log(dataJson);
-  console.log("user name:", username, "pass: ", password);
-  for (let i = 0; i < dataJson.length; i++) {
-    //console.log(`${i}`,dataJson[i].code,code,(dataJson[i].code).toString() === (code).toString())
-    console.log(`${i}`,dataJson[i].username,password,dataJson[i].username === password);
-    if (
-      dataJson[i].username.toString() === username &&
-      dataJson[i].password.toString() === password
-    )
-      return true;
-  }
-  return false;
-}
+export default Login;
