@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import "./logreg.css";
 import univalle from "./Univalle.svg.png";
 export const Login = (props) => {
-  const [code, setcode] = useState("");
-  const [pass, setPass] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let check = await clientCredentials(code, pass);
+    let check = await clientCredentials(username, password);
 
     if (check) {
       console.log("asiogvasdovfsdapvaosv");
@@ -76,8 +76,8 @@ export const Login = (props) => {
               <div className="input-group mb-3">
                 <input
                   //pattern="[0-9]*"
-                  value={code}
-                  onChange={(e) => setcode(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   id="code"
                   name="code"
                   type="code"
@@ -87,8 +87,8 @@ export const Login = (props) => {
               </div>
               <div className="input-group mb-1">
                 <input
-                  value={pass}
-                  onChange={(e) => setPass(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   name="password"
                   type="password"
@@ -119,18 +119,18 @@ export const Login = (props) => {
   );
 };
 
-async function clientCredentials(code, password) {
+async function clientCredentials(username, password) {
   let data = await fetch(`https://saraendpoint.azurewebsites.net/user/`);
   //use string literals
   let dataJson = await data.json();
-  console.log(dataJson);
-  console.log("user name:", code, "pass: ", password);
+  //console.log(dataJson);
+  console.log("user name:", username, "pass: ", password);
   for (let i = 0; i < dataJson.length; i++) {
     //console.log(`${i}`,dataJson[i].code,code,(dataJson[i].code).toString() === (code).toString())
-    //console.log(`${i}`,dataJson[i].name,password,dataJson[i].name === password);
+    console.log(`${i}`,dataJson[i].username,password,dataJson[i].username === password);
     if (
-      dataJson[i].code.toString() === code &&
-      dataJson[i].name.toString() === password
+      dataJson[i].username.toString() === username &&
+      dataJson[i].password.toString() === password
     )
       return true;
   }

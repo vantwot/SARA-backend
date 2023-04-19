@@ -7,14 +7,41 @@ const Recovery = (props) => {
   const [numeroid, setNumeroId] = useState("");
   const [pass, setPass] = useState("");
   const [repass, setRePass] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    let check = await post_data(numeroid, pass, repass);
-
-    if (check === true) {
-      props.onFormSwitch("login");
+    if (!codeid || !numeroid || !pass || !repass) {
+      setError("Todos los campos son obligatorios");
+      return;
+    }
+    if (pass !== repass) {
+      setError("Las contraseñas no coinciden");
+      return;
+    }
+    try {
+      const requestOptions = {
+        mode: "cors",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: codeid,
+          identification: numeroid,
+          new_password: pass,
+          repeat_password: repass,
+        }),
+      };
+      console.log(requestOptions);
+      let data = await fetch(
+        `http://saraendpoint.azurewebsites.net/user/change_password/`,
+        requestOptions
+      );
+      let dataJson = await data.json();
+      console.log(dataJson);
+      // mostrar mensaje de éxito al usuario
+    } catch (error) {
+      console.error(error);
+      setError("No se pudo cambiar la contraseña");
     }
   };
 
@@ -141,31 +168,5 @@ const Recovery = (props) => {
     </div>
   );
 };
-
-async function post_data(numeroid, codeid, pass, repass) {
-  // Simple POST request with a JSON body using fetch
-  const requestOptions = {
-    mode: "cors",
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      username: codeid,
-      identification: numeroid,
-      new_password: pass,
-      repeat_password: repass,
-    }),
-  };
-  let data = await fetch(`http://localhost:9000/register`, requestOptions);
-  //use string literals
-  let dataJson = await data.json();
-  console.log(dataJson);
-  //logica de check
-  // for (let i = 0; i < dataJson.length; i++){
-  //     console.log(dataJson[i]);
-  //     if (dataJson[i].username === codeid && dataJson[i].identification === numeroid)
-  //         return true
-  // }
-  //return true;
-}
 
 export default Recovery;
