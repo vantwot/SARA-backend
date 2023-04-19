@@ -21,7 +21,7 @@ const Recovery = (props) => {
     }
     try {
       const requestOptions = {
-        mode: "cors",
+        //mode: "cors",
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -33,7 +33,7 @@ const Recovery = (props) => {
       };
       console.log(requestOptions);
       let data = await fetch(
-        `http://saraendpoint.azurewebsites.net/user/change_password/`,
+        `https://saraendpoint.azurewebsites.net/user/change_password/`,
         requestOptions
       );
       let dataJson = await data.json();
