@@ -1,20 +1,44 @@
 import React, { useState } from "react";
 import "./logreg.css";
 import univalle from "./Univalle.svg.png";
-export const Login = (props) => {
-  const [code, setcode] = useState("");
-  const [pass, setPass] = useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let check = await clientCredentials(code, pass);
-
-    if (check) {
-      console.log("asiogvasdovfsdapvaosv");
-      props.onFormSwitch("http://localhost:3000/profile");
+import { useNavigate } from "react-router-dom";
+const Login = (props) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+// si el usuario esta registrado status codigo 200 y enviarlo al dashboard
+// si el usuario no esta registrado status codigo diferente de 200 y mostrar mensaje de error
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!username || !password) {
+    setError("Todos los campos son obligatorios");
+    return;
+  }
+  try {
+    const requestOptions = {
+      mode: "cors",
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    };
+    console.log(requestOptions);
+    const response = await fetch('https://saraendpoint.azurewebsites.net/login/', requestOptions);
+    if (!response.ok) {
+      throw new Error('Error en la solicitud');
     }
-  };
-  //console.log(clientCredentials(code, pass));
+    const data = await response.json();
+    console.log(data);
+    
+    navigate("profile/"); 
+  } catch (error) {
+    console.log(error);
+    setError("Ha ocurrido un error al iniciar sesión");
+  }
+};
 
   return (
     <div className="background">
@@ -76,8 +100,8 @@ export const Login = (props) => {
               <div className="input-group mb-3">
                 <input
                   //pattern="[0-9]*"
-                  value={code}
-                  onChange={(e) => setcode(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   id="code"
                   name="code"
                   type="code"
@@ -87,8 +111,8 @@ export const Login = (props) => {
               </div>
               <div className="input-group mb-1">
                 <input
-                  value={pass}
-                  onChange={(e) => setPass(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   name="password"
                   type="password"
@@ -119,20 +143,4 @@ export const Login = (props) => {
   );
 };
 
-async function clientCredentials(code, password) {
-  let data = await fetch(`https://saraendpoint.azurewebsites.net/user/`);
-  //use string literals
-  let dataJson = await data.json();
-  console.log(dataJson);
-  console.log("user name:", code, "pass: ", password);
-  for (let i = 0; i < dataJson.length; i++) {
-    //console.log(`${i}`,dataJson[i].code,code,(dataJson[i].code).toString() === (code).toString())
-    //console.log(`${i}`,dataJson[i].name,password,dataJson[i].name === password);
-    if (
-      dataJson[i].code.toString() === code &&
-      dataJson[i].name.toString() === password
-    )
-      return true;
-  }
-  return false;
-}
+export default Login;

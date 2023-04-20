@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './App.css'
-import { Login } from './login-register/Login';
+import Login from './login-register/Login';
 //import { Navbar } from "./bars/Navbar";
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import Profile from "./pages/profile";
