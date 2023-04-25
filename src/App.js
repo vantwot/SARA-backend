@@ -5,31 +5,31 @@ import Login from './login-register/Login';
 import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import Profile from "./pages/profile";
 import Statistics from "./pages/statistics";
-import Home from "./pages/home";
+import { Home, Layout } from "./components";
 import Recovery from "./login-register/recoverpass.jsx"
 
 function App() {
-  const [currentForm, setCurrentForm] = useState('login')//useState('page') or useState('login')
+  // const [currentForm, setCurrentForm] = useState('login')//useState('page') or useState('login')
 
-  const toggleForm = (formName) => {
-    setCurrentForm(formName);
-  }
+  // const toggleForm = (formName) => {
+  //   setCurrentForm(formName);
+  // }
 
   return (
-    
+
     // <div className = {(currentForm === 'login') ? 'App-login' : 'App-page'}>
     //   {
     //     // currentForm === 'login' ? <Login onFormSwitch={toggleForm} /> :
-            <>
-              {/* <Navbar /> */}
-              <Routes>
-                <Route path='/' exact element={<Login />} />
-                <Route path='/home' exact element={<Home />} />
-                <Route path='/profile' exact element={<Profile />} />
-                <Route path='/statistics' exact element={<Statistics />} /> 
-                <Route path='/recover' exact element={<Recovery />} />
-              </Routes>
-            </>
+    <>
+      {/* <Navbar /> */}
+      <Routes>
+        <Route path='/' exact element={<Login />} />
+        <Route path='/home' exact element={<Layout> <Home /> </Layout>} />
+        <Route path='/profile' exact element={<Profile />} />
+        <Route path='/statistics' exact element={<Statistics />} />
+        <Route path='/recover' exact element={<Recovery />} />
+      </Routes>
+    </>
 
     //   }
     //</div>

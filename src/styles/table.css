@@ -1,0 +1,59 @@
+.table {
+	width:100%;
+	border:2px solid #ff0000;
+    grid-auto-rows: 1fr;
+}
+
+.table-header {
+	/* display:flex; */
+	background:#b3b3b3;
+    padding:0.5rem 0.5rem;
+    font-size: 1.2rem;
+}
+
+.table-row {
+	display:flex;
+	background:#EEEEEE;
+}
+
+.table-data, .header__item {
+	/* flex: 1 1 20%; */
+	text-align:center;
+    padding:0.5rem 0.5rem;
+    font-size: 1rem;
+}
+
+.header__item {
+	text-transform:uppercase;
+}
+
+.codigo{
+    /* width: 125px; */
+    width: 15%;
+    /* background-color: #00ff00; */
+}
+
+.grupo{
+    width: 100px;
+    width: 15%;
+    /* background-color: aqua; */
+}
+
+.asignatura{
+    width: 400px;
+    width: 35%;
+    /* background-color: #ff0000; */
+    text-align: left;
+}
+
+.nota{
+    width: 100px;
+    width: 17%;
+    /* background-color: #ffff00; */
+}
+
+.creditos{
+    width: 125px;
+    width: 18%;
+    /* background-color: #00ffff; */
+}
