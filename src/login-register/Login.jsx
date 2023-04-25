@@ -33,7 +33,7 @@ const handleSubmit = async (e) => {
     const data = await response.json();
     console.log(data);
     
-    navigate("profile/"); 
+    navigate("home/"); 
   } catch (error) {
     console.log(error);
     setError("Ha ocurrido un error al iniciar sesión");

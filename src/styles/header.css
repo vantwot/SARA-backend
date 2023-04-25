@@ -1,0 +1,41 @@
+.header-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: rgb(255, 0, 0);
+}
+
+.left {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.right {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.header-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+}
+
+.header-category {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: rgb(255, 255, 255);
+    margin-left: 1rem;
+}
+
+.link {
+    text-decoration: none;    
+}
