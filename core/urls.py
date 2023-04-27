@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Token_app.urls')),
     path('', include('Usuario.routers')),
+    path('', include('Asignatura.routers')),
 ]
