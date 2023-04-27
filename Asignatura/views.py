@@ -21,11 +21,10 @@ class AsignaturaViewSet(ModelViewSet):
             return Response("Actualización exitosa")
         return Response("Actualización fallida")
 
-    @action(methods=['post'], detail=False,url_path='manyasignaturas')
+    @action(methods=['post'], detail=False,url_path='ManyAsignaturas')
     def many_asignaturas(self,request):
         serializer = self.get_serializer(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-
-        return Response("Se ha creado la mierda larga")
+        return Response("Creación exitosa")
 
