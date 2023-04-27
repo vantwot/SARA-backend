@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 #Serializador para los usuarios:
-class MateriaSerializer(serializers.ModelSerializer):
+class AsignaturaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Materia
+        model = Asignatura
         fields = '__all__'
