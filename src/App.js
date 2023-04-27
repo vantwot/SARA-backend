@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-rou
 import Profile from "./pages/profile";
 import Statistics from "./pages/statistics";
 import { Home, Layout } from "./components";
+import Profesor from './components/Profesor.jsx'
 import Recovery from "./login-register/recoverpass.jsx"
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
   //   setCurrentForm(formName);
   // }
 
+  const categories = [{ name: "Matricular", slug: "matricula" }, { name: "Tabulados", slug: "tabulados" }, { name: "Perfil", slug: "profile" }]
+  const categoriesProfe = [{ name: "Perfil", slug: "profile" }]
   return (
 
     // <div className = {(currentForm === 'login') ? 'App-login' : 'App-page'}>
@@ -24,18 +27,13 @@ function App() {
       {/* <Navbar /> */}
       <Routes>
         <Route path='/' exact element={<Login />} />
-        <Route path='/home' exact element={<Layout> <Home /> </Layout>} />
+        <Route path='/home' exact element={<Layout categories={categories}> <Home /> </Layout>} />
         <Route path='/profile' exact element={<Profile />} />
         <Route path='/statistics' exact element={<Statistics />} />
         <Route path='/recover' exact element={<Recovery />} />
+        <Route path='/profesor' exact element={<Layout categories={categoriesProfe}> <Profesor /> </Layout>} />
       </Routes>
     </>
-
-    //   }
-    //</div>
-
-
-
 
   );
 
