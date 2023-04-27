@@ -114,9 +114,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'laesyewq', 
-        'USER': 'laesyewq', 
-        'PASSWORD': 'IzX-ak-JQjEsEOepOpWwdepWorBRioGO',
+        'NAME': 'xejxgcji', 
+        'USER': 'xejxgcji', 
+        'PASSWORD': 'ASpclb1GbR2wQqU7j4xiKEsovbpWsh3u',
         'HOST': 'babar.db.elephantsql.com', 
         'PORT': '5432',
     }
