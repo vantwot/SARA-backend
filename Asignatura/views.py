@@ -1,3 +1,4 @@
+from urllib import request
 from rest_framework.viewsets import ModelViewSet
 from .models import Asignatura
 from .serializers import *
@@ -19,3 +20,12 @@ class AsignaturaViewSet(ModelViewSet):
             asignatura_serializer.save()
             return Response("Actualización exitosa")
         return Response("Actualización fallida")
+
+    @action(methods=['post'], detail=False,url_path='manyasignaturas')
+    def many_asignaturas(self,request):
+        serializer = self.get_serializer(data=request.data, many=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        return Response("Se ha creado la mierda larga")
+
