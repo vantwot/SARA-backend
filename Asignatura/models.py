@@ -1,5 +1,7 @@
 from django.db import models
 
+from Usuario.models import User
+
 def prerequisiteDefault():
     return {"prerequisite_1": "", "prerequisite_2": "", "prerequisite_3": "", "prerequisite_4": ""}
 
@@ -16,6 +18,7 @@ class Asignatura(models.Model):
     prerequisite = models.JSONField(default=prerequisiteDefault, blank=True)
     horario = models.JSONField(default=horarioDefault, blank=True)
     note = models.CharField(max_length=10, default="", blank=True)
+    id_profesor = models.ForeignKey(User, blank=True, on_delete= models.CASCADE)
 
     def __str__(self):
         return f"{str(self.id)} {self.code}"
