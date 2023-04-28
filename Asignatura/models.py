@@ -17,7 +17,6 @@ class Asignatura(models.Model):
     group = models.CharField(max_length=10, blank=False)
     prerequisite = models.JSONField(default=prerequisiteDefault, blank=True)
     horario = models.JSONField(default=horarioDefault, blank=True)
-    note = models.CharField(max_length=10, default="", blank=True)
     id_profesor = models.ForeignKey(User, blank=True, on_delete= models.CASCADE)
 
     def __str__(self):
