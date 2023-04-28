@@ -14,16 +14,14 @@ class TabuladoViewSet(ModelViewSet):
 
 
     def create_courses(self, courses):
-        asignatura = {}
+        asignatura = []
 
-        for i in range(0,len(courses)):
-                ref = i + 1
-                c = courses['course{}'.format(ref)]
+        for i in range(len(courses)):
                 
-                course_filter = Asignatura.objects.filter(code=c[0], group=c[1])[0]
-                course_srlz = AsignaturaSerializer(course_filter)
-                asignatura['course{}'.format(ref)] = course_srlz.data
-                asignatura['grade{}'.format(ref)] = c[2]
+                course_filter = Asignatura.objects.filter(code=courses[i][0], group=courses[i][1])[0]
+                course_srlz = SimpleCourseSerializer(course_filter)
+                asignatura.append(course_srlz.data)
+                asignatura.append(courses[i][2])
 
         return asignatura
     
@@ -32,7 +30,7 @@ class TabuladoViewSet(ModelViewSet):
         request_obj = json.loads(request.body)
         courses = request_obj['courses']
         code = request_obj['code']
-        asignatura = {}
+        asignatura = []
 
 
         if len(courses) != 0:
