@@ -8,3 +8,6 @@ from .serializers import *
 class Tabulado(ModelViewSet):
     queryset = Tabulado.objects.all()
     serializer_class = TabuladoSerializer
+
+    def create(self, request, *args, **kwargs):
+        
