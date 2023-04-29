@@ -24,3 +24,14 @@ class Asignatura(models.Model):
     
     class Meta:
         db_table = "Asignatura"
+
+class EstudianteAsignatura(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    id_estudiante = models.ForeignKey(User, blank=True, on_delete= models.CASCADE)
+    id_asignatura = models.ForeignKey(Asignatura, blank=True, on_delete= models.CASCADE)
+
+    def __str__(self):
+        return f"{str(self.id)}"
+    
+    class Meta:
+        db_table = "EstudianteAsignatura"

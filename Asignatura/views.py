@@ -28,3 +28,21 @@ class AsignaturaViewSet(ModelViewSet):
         self.perform_create(serializer)
         return Response("Creación exitosa")
 
+class EstudianteAsignaturaViewSet(ModelViewSet):
+    
+    serializer_class = EstudianteAsignaturaSerializer
+    queryset = EstudianteAsignaturaSerializer.Meta.model.objects.all()
+
+    @action(methods=['GET'], detail=True, url_path='byAsignatura')
+    def byAsig(self, request, pk=None):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(id_asignatura=pk)
+        serializer = EstudianteAsignaturaSerializer(queryset, many=True)
+        return Response (serializer.data)
+    
+    @action(methods=['GET'], detail=True,url_path='byEstudiante')
+    def byEstu(self, request, pk=None):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(id_estudiante=pk)
+        serializer = EstudianteAsignaturaSerializer(queryset, many=True)
+        return Response (serializer.data)

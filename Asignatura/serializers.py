@@ -7,7 +7,13 @@ class AsignaturaSerializer(serializers.ModelSerializer):
         model = Asignatura
         fields = '__all__'
 
+
 class SimpleCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Asignatura
         exclude = ['id']
+
+class EstudianteAsignaturaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EstudianteAsignatura
+        fields = '__all__'
