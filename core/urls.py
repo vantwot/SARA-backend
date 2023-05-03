@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('Token_app.urls')),
     path('', include('Usuario.routers')),
     path('', include('Asignatura.routers')),
+    path('', include('Tabulado.routers'))
 ]

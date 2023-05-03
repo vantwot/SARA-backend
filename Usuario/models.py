@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser, UserManager
 
 #Sobrescritura del usuario de Django:
 class User(AbstractUser):
-    academy_program = models.CharField(max_length=10, blank=True)
+    academy_program = models.CharField(max_length=50, blank=True)
     permission = models.CharField(max_length=150, blank=True)
     identification = models.CharField(max_length=20, blank=False)
 
