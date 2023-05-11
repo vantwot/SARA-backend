@@ -43,6 +43,7 @@ const Recovery = (props) => {
       console.error(error);
       setError("No se pudo cambiar la contraseña");
     }
+    console.log(error);
   };
 
   return (

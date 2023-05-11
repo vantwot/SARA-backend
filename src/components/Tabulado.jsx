@@ -3,45 +3,7 @@ import Table from "react-bootstrap/Table";
 
 import "styles/table.css";
 
-const MATERIAS = [
-    {
-        "codigo": "750020C",
-        "grupo": "01",
-        "asignatura": "ANÁLISIS Y DISEÑO DE ALGORITMOS II",
-        "nota": 4.5,
-        "creditos": 3
-    },
-    {
-        "codigo": "750021C",
-        "grupo": "01",
-        "asignatura": "DESARROLLO DE SOFTWARE II",
-        "nota": 4.5,
-        "creditos": 3
-    },
-    {
-        "codigo": "750018C",
-        "grupo": "01",
-        "asignatura": "PROYECTO INTEGRADOR I",
-        "nota": 4.5,
-        "creditos": 4
-    },
-    {
-        "codigo": "750022C",
-        "grupo": "01",
-        "asignatura": "INTELIGENCIA ARTIFICIAL",
-        "nota": 4.5,
-        "creditos": 4
-    },
-    {
-        "codigo": "750023C",
-        "grupo": "01",
-        "asignatura": "INFRAESTRUCTURAS PARALELAS Y DISTRIBUIDAS",
-        "nota": 4.5,
-        "creditos": 3
-    },
-]
-
-const Tabulado = () => {
+const Tabulado = ( {courses} ) => {
     return (
         <div>
             <Table striped bordered hover className="table">
@@ -55,13 +17,13 @@ const Tabulado = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {MATERIAS.map((materia) => (
-                        <tr className="table-row" key={materia.codigo}>
-                            <td className="table-data codigo">{materia.codigo}</td>
-                            <td className="table-data grupo">{materia.grupo}</td>
-                            <td className="table-data asignatura">{materia.asignatura}</td>
-                            <td className="table-data nota">{materia.nota}</td>
-                            <td className="table-data creditos">{materia.creditos}</td>
+                    {courses.map((materia, index) => (
+                        <tr className="table-row" key={index}>
+                            <td className="table-data codigo">{materia.code}</td>
+                            <td className="table-data grupo">{materia.group}</td>
+                            <td className="table-data asignatura">{materia.name}</td>
+                            <td className="table-data nota">{materia.grade}</td>
+                            <td className="table-data creditos">{materia.credits}</td>
                         </tr>
                     ))}
                 </tbody>

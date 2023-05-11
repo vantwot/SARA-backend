@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "./logreg.css";
 import univalle from "./Univalle.svg.png";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
+
 const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,19 +28,32 @@ const handleSubmit = async (e) => {
         password: password,
       }),
     };
-    console.log(requestOptions);
+
     const response = await fetch('https://saraendpoint.azurewebsites.net/login/', requestOptions);
     if (!response.ok) {
       throw new Error('Error en la solicitud');
     }
     const data = await response.json();
-    console.log(data);
     
-    navigate("home/"); 
+    const token = data.access;
+    const decoded = jwt_decode(token);
+
+    const userInfo = {
+      name: decoded.name,
+      last_name: decoded.last_name,
+      program: decoded.program,
+      tabulado: decoded.tabulado,
+      username: decoded.username,
+      user_id: decoded.user_id,
+    };
+    
+    navigate("home/", {state:userInfo});
+
   } catch (error) {
     console.log(error);
     setError("Ha ocurrido un error al iniciar sesión");
   }
+  console.log(error);
 };
 
   return (
