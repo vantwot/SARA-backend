@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 import "styles/header.css";
 
-const categories = [{ name: "Matricular", slug: "matricula" }, { name: "Tabulados", slug: "tabulados" }, { name: "Perfil", slug: "profile" }]
+// const categories = [{ name: "Matricular", slug: "matricula" }, { name: "Tabulados", slug: "tabulados" }, { name: "Perfil", slug: "profile" }]
 
-const Header = ({ title }) => {
+const Header = ({ categories }) => {
     return (
         <div className="header-container">
             {/* <div className="top"> */}
