@@ -12,8 +12,8 @@ class Serializador_token(TokenObtainPairSerializer):
 
     def get_tabular(id):
         #Consulta Tabulado con Raw:
-        tabulado_raw = Tabulado.objects.raw("SELECT * FROM UserTabulado INNER JOIN \
-                                            Tabulado AS t ON id_tabulado_id = t.id WHERE id_user_id = %s ORDER BY t.id DESC", [id])
+        tabulado_raw = Tabulado.objects.raw('SELECT * FROM "UserTabulado" INNER JOIN \
+                                            "Tabulado" AS t ON id_tabulado_id = t.id WHERE id_user_id = %s ORDER BY t.id DESC', [id])
         if len(tabulado_raw) != 0:
             tabulado = tabulado_raw[0]
             return TabuladoSerializer(tabulado).data
@@ -22,15 +22,15 @@ class Serializador_token(TokenObtainPairSerializer):
 
     def get_info_for_teacher(id):
         asignatura = []
-        tabular = Tabulado.objects.raw("SELECT id, courses FROM Tabulado")
+        tabular = Tabulado.objects.raw('SELECT id, courses FROM "Tabulado"')
         for n in tabular:
             courses = n.courses
             for j in range(0, len(courses),2):
                 asig = courses[j]
                 if asig['id_profesor'] == id:
-                    query = User.objects.raw("SELECT * FROM User INNER JOIN \
-                                                (SELECT id_user_id FROM Tabulado AS t INNER JOIN UserTabulado  AS ut ON t.id = ut.id_tabulado_id WHERE t.id = %s) \
-                                                AS q ON User.id = q.id_user_id", [n.id])
+                    query = User.objects.raw('SELECT * FROM "User" INNER JOIN \
+                                                (SELECT id_user_id FROM "Tabulado" AS t INNER JOIN "UserTabulado"  AS ut ON t.id = ut.id_tabulado_id WHERE t.id = %s) \
+                                                AS q ON "User".id = q.id_user_id', [n.id])
                     asignatura.append({"id_profesor": asig['id_profesor'], "codigo": query[0].username, \
                                        "nombre": query[0].first_name + " " + query[0].last_name,"asignatura": asig['code'], "nota": courses[j+1]})
 
@@ -42,7 +42,7 @@ class Serializador_token(TokenObtainPairSerializer):
         token = super().get_token(user)
 
         #Consulta Rol
-        rol_raw = Rol.objects.raw("SELECT * FROM Rol INNER JOIN UserRol ON id = UserRol.id_rol_id WHERE id_id = %s", [user.id])
+        rol_raw = Rol.objects.raw('SELECT * FROM "Rol" INNER JOIN "UserRol" ON id = "UserRol".id_rol_id WHERE id_id = %s', [user.id])
         rol = rol_raw[0].name
 
         #Consulta el ultimo Tabulado del estudiante
