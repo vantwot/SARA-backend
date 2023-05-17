@@ -1,9 +1,15 @@
+from crypt import methods
+import json
+from re import search
 from urllib import request
+from Tabulado.models import Tabulado
 from rest_framework.viewsets import ModelViewSet
 from .models import Asignatura
 from .serializers import *
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+from django.db import connection
 
 
 #View del Usuario
@@ -27,6 +33,32 @@ class AsignaturaViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response("Creación exitosa")
+    
+    @action(methods=['get'], detail=True, url_path='Students')
+    def student_registered(self, request, pk=None):
+        students = []
+        grade = -7.4
+        #asignatura = Asignatura.objects.get(pk=pk)
+        #asig_srlz = self.get_serializer(asignatura).data
+
+        # json_query = '%"code": "{}", "name": "{}", "group": "{}"%'.format(asig_srlz['code'],asig_srlz['name'],asig_srlz['group'])
+        # query = Tabulado.objects.raw('SELECT * FROM "User" INNER JOIN (SELECT id_user_id, courses FROM "Tabulado" AS t INNER JOIN "UserTabulado"  AS ut ON t.id = ut.id_tabulado_id WHERE courses::text LIKE %s) \
+        #                                         AS q ON "User".id = q.id_user_id', [json_query])
+        json_query = '%"id": {}%'.format(pk)
+        query = Tabulado.objects.raw('SELECT * FROM "User" INNER JOIN (SELECT id_user_id, courses FROM "Tabulado" AS t INNER JOIN "UserTabulado"  AS ut ON t.id = ut.id_tabulado_id WHERE courses::text LIKE %s) \
+                                                AS q ON "User".id = q.id_user_id', [json_query])
+        
+        for a in query:
+            courses = a.courses
+            for j in range(0, len(courses),2):
+                if courses[j]['id'] == int(pk):
+                    grade = courses[j+1]
+                    break
+
+            students.append({'id': a.id,'codigo': a.username, 'nombre': a.first_name + " " + a.last_name, 'nota': grade} )
+            
+        return Response(students)
+
 
 class EstudianteAsignaturaViewSet(ModelViewSet):
     

@@ -20,20 +20,28 @@ class Serializador_token(TokenObtainPairSerializer):
         else:
             return []
 
+    # def get_info_for_teacher(id):
+    #     asignatura = []
+    #     tabular = Tabulado.objects.raw('SELECT id, courses FROM "Tabulado"')
+    #     for n in tabular:
+    #         courses = n.courses
+    #         for j in range(0, len(courses),2):
+    #             asig = courses[j]
+    #             if asig['id_profesor'] == id:
+    #                 # query = User.objects.raw('SELECT * FROM "User" INNER JOIN \
+    #                 #                             (SELECT id_user_id FROM "Tabulado" AS t INNER JOIN "UserTabulado"  AS ut ON t.id = ut.id_tabulado_id WHERE t.id = %s) \
+    #                 #                             AS q ON "User".id = q.id_user_id', [n.id])
+    #                 # asignatura.append({"id_profesor": asig['id_profesor'], "codigo": query[0].username, \
+    #                 #                    "nombre": query[0].first_name + " " + query[0].last_name,"asignatura": asig['code'], "nota": courses[j+1]})
+    #                 asignatura.append({'codigo': asig['code'], 'nombre': asig['name'], 'grupo': asig['group'], 'horario': asig['horario']})
+
+    #     return asignatura
+
     def get_info_for_teacher(id):
         asignatura = []
-        tabular = Tabulado.objects.raw('SELECT id, courses FROM "Tabulado"')
-        for n in tabular:
-            courses = n.courses
-            for j in range(0, len(courses),2):
-                asig = courses[j]
-                if asig['id_profesor'] == id:
-                    # query = User.objects.raw('SELECT * FROM "User" INNER JOIN \
-                    #                             (SELECT id_user_id FROM "Tabulado" AS t INNER JOIN "UserTabulado"  AS ut ON t.id = ut.id_tabulado_id WHERE t.id = %s) \
-                    #                             AS q ON "User".id = q.id_user_id', [n.id])
-                    # asignatura.append({"id_profesor": asig['id_profesor'], "codigo": query[0].username, \
-                    #                    "nombre": query[0].first_name + " " + query[0].last_name,"asignatura": asig['code'], "nota": courses[j+1]})
-                    asignatura.append({'codigo': asig['code'], 'nombre': asig['name'], 'grupo': asig['group'], 'horario': asig['horario']})
+        query = Asignatura.objects.raw('SELECT * FROM "Asignatura" WHERE id_profesor_id = %s', [id])
+        for n in query:
+            asignatura.append({'id': n.id,'codigo': n.code, 'nombre': n.name, 'grupo': n.group, 'horario': n.horario})
 
         return asignatura
 
