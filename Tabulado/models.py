@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.timezone import now
+from django.utils import timezone
 from Usuario.models import User
 from datetime import date
 
@@ -11,7 +11,7 @@ class Tabulado(models.Model):
     courses = models.JSONField(blank=True)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
     
     class Meta:
         db_table = 'Tabulado'
@@ -20,7 +20,7 @@ class Tabulado(models.Model):
 class UserTabulado(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     id_tabulado = models.ForeignKey(Tabulado, on_delete=models.CASCADE)
-    date_generated = models.DateField(default=now())
+    date_generated = models.DateField(default=timezone.now)
 
     def __str__(self):
         return f"{str(self.id_user.username)} {str(self.id_tabulado.id)}"

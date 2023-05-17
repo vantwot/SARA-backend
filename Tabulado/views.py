@@ -58,3 +58,21 @@ class TabuladoViewSet(ModelViewSet):
         student = User.objects.filter(username=data_request['code'])
         tabular = Tabulado.objects.get(pk=data_request['tabular'])
 
+
+    @action(methods=['post'], detail=False, url_path='UpdateGrade')
+    def UpdateGrade(self, request):
+        request_data = UpdateGradeSerializer(data=request.data)
+        request_data.is_valid(raise_exception=True)
+        tabulado = Tabulado.objects.get(pk=request_data.data['id_tabulado'])
+        tab_srlz = self.get_serializer(tabulado)
+
+        courses = tabulado.courses
+        for a in range(0,len(courses), 2):
+            if courses[a]['code'] == request_data.data['code']:
+                courses[a+1] = request_data.data['grade']
+                break
+        
+        tabulado.courses = courses
+        tabulado.save()
+
+        return Response({"message": "Se ha actualizado la nota"})

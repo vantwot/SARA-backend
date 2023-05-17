@@ -35,8 +35,8 @@ class AsignaturaViewSet(ModelViewSet):
         students = []
         grade = 0.0
         
-        json_query = '%"id": {}%'.format(pk)
-        query = Tabulado.objects.raw('SELECT * FROM "User" INNER JOIN (SELECT id_user_id, courses FROM "Tabulado" AS t INNER JOIN "UserTabulado"  AS ut ON t.id = ut.id_tabulado_id WHERE courses::text LIKE %s) \
+        json_query = '%"id": {},%'.format(pk)
+        query = Tabulado.objects.raw('SELECT * FROM "User" INNER JOIN (SELECT id_user_id, t.id id_tabulado, courses FROM "Tabulado" AS t INNER JOIN "UserTabulado"  AS ut ON t.id = ut.id_tabulado_id WHERE courses::text LIKE %s) \
                                                 AS q ON "User".id = q.id_user_id', [json_query])
         
         for a in query:
@@ -46,7 +46,7 @@ class AsignaturaViewSet(ModelViewSet):
                     grade = courses[j+1]
                     break
 
-            students.append({'id': a.id,'codigo': a.username, 'nombre': a.first_name + " " + a.last_name, 'nota': grade} )
+            students.append({'id': a.id, 'id_tabulado': a.id_tabulado,'codigo': a.username, 'nombre': a.first_name + " " + a.last_name, 'nota': grade} )
             
         return Response(students)
     
