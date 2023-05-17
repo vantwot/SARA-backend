@@ -1,3 +1,4 @@
+from dataclasses import fields
 from rest_framework import serializers
 from .models import *
 
@@ -11,7 +12,7 @@ class AsignaturaSerializer(serializers.ModelSerializer):
 class SimpleCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Asignatura
-        exclude = ['id']
+        fields = '__all__'
 
 class EstudianteAsignaturaSerializer(serializers.ModelSerializer):
     class Meta:
