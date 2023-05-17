@@ -1,7 +1,3 @@
-from crypt import methods
-import json
-from re import search
-from urllib import request
 from Tabulado.models import Tabulado
 from rest_framework.viewsets import ModelViewSet
 from .models import Asignatura
@@ -37,13 +33,8 @@ class AsignaturaViewSet(ModelViewSet):
     @action(methods=['get'], detail=True, url_path='Students')
     def student_registered(self, request, pk=None):
         students = []
-        grade = -7.4
-        #asignatura = Asignatura.objects.get(pk=pk)
-        #asig_srlz = self.get_serializer(asignatura).data
-
-        # json_query = '%"code": "{}", "name": "{}", "group": "{}"%'.format(asig_srlz['code'],asig_srlz['name'],asig_srlz['group'])
-        # query = Tabulado.objects.raw('SELECT * FROM "User" INNER JOIN (SELECT id_user_id, courses FROM "Tabulado" AS t INNER JOIN "UserTabulado"  AS ut ON t.id = ut.id_tabulado_id WHERE courses::text LIKE %s) \
-        #                                         AS q ON "User".id = q.id_user_id', [json_query])
+        grade = 0.0
+        
         json_query = '%"id": {}%'.format(pk)
         query = Tabulado.objects.raw('SELECT * FROM "User" INNER JOIN (SELECT id_user_id, courses FROM "Tabulado" AS t INNER JOIN "UserTabulado"  AS ut ON t.id = ut.id_tabulado_id WHERE courses::text LIKE %s) \
                                                 AS q ON "User".id = q.id_user_id', [json_query])
@@ -58,7 +49,20 @@ class AsignaturaViewSet(ModelViewSet):
             students.append({'id': a.id,'codigo': a.username, 'nombre': a.first_name + " " + a.last_name, 'nota': grade} )
             
         return Response(students)
+    
+    ''' 
+        * Metodo para la busqueda de las asignaturas *
+    '''
+    @action(methods=['get'],detail=True, url_path='Search')
+    def searchSubjects(self,request, pk):
+        param = '{}%'.format(pk)
+        subjects = []
+        query = Asignatura.objects.raw('SELECT * FROM "Asignatura" AS a INNER JOIN "User" AS u ON a.id_profesor_id = u.id WHERE a.code LIKE %s OR a.name LIKE %s', [param, param])
+        for a in query:
+            subjects.append({"code": a.code, "name": a.name, "credits": a.credits, "group": a.group,\
+                "horario": a.horario, "professor": a.first_name + " " + a.last_name, "email": a.email})
 
+        return Response(subjects)
 
 class EstudianteAsignaturaViewSet(ModelViewSet):
     
