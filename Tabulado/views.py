@@ -59,7 +59,7 @@ class TabuladoViewSet(ModelViewSet):
         tabular = Tabulado.objects.get(pk=data_request['tabular'])
 
 
-    @action(methods=['post'], detail=False, url_path='UpdateGrade')
+    @action(methods=['put'], detail=False, url_path='UpdateGrade')
     def UpdateGrade(self, request):
         request_data = UpdateGradeSerializer(data=request.data)
         request_data.is_valid(raise_exception=True)
@@ -68,7 +68,7 @@ class TabuladoViewSet(ModelViewSet):
 
         courses = tabulado.courses
         for a in range(0,len(courses), 2):
-            if courses[a]['code'] == request_data.data['code']:
+            if courses[a]['id'] == int(request_data.data['code']):
                 courses[a+1] = request_data.data['grade']
                 break
         
