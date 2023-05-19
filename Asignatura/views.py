@@ -54,7 +54,28 @@ class AsignaturaViewSet(ModelViewSet):
         * Metodo para la busqueda de las asignaturas *
     '''
     @action(methods=['get'],detail=True, url_path='Search')
-    def searchSubjects(self,request, pk):
+    def searchSubjects(self,request, pk=None):
+        if pk=="None":
+            query = Asignatura.objects.raw('SELECT * FROM "Asignatura" AS a INNER JOIN "User" AS u ON a.id_profesor_id = u.id ORDER BY name')
+            n = 0
+            asignaturas = []
+            while n < len(query):
+                q = query[n]
+                asig = {"code": q.code, "name": q.name, "credits": q.credits, "groups": []}
+                asig['groups'].append({"group": q.group, "professor": q.first_name + " " + q.last_name, \
+                                        "email": q.email,"horario": q.horario})
+                for m in range(n+1, len(query), 1):
+                    q2 = query[m]
+                    if q2.code != q.code:
+                        break
+                    asig['groups'].append({"group": q2.group, "professor": q2.first_name + " " + q2.last_name, \
+                                       "email": q2.email ,"horario": q2.horario})
+                    n += 1
+                n += 1
+                asignaturas.append(asig)
+            
+            return Response(asignaturas)
+
         param = '{}%'.format(pk)
         subjects = []
         query = Asignatura.objects.raw('SELECT * FROM "Asignatura" AS a INNER JOIN "User" AS u ON a.id_profesor_id = u.id WHERE a.code LIKE %s OR a.name LIKE %s', [param, param])
