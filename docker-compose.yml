@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+
+  dbPostgres:
+    container_name: postgres_service
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${USER_DB}
+      POSTGRES_PASSWORD: ${PASSWORD_DB}
+      POSTGRES_DB: ${DB}
+    volumes:
+      - data-sara:/data/postgres
+    ports:
+      - "5432:5432"
+
+  backend:
+    container_name: django_service
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    environment:
+      - DB_PASSWORD=${PASSWORD_DB}
+      - DB_USER=${USER_DB}
+      - DB_NAME=${DB}
+      - DB_HOST=${HOST_DB}
+      - DB_PORT=${PORT_DB}
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./Backend:/Backend
+    depends_on:
+      - dbPostgres
+
+  frontend:
+    container_name: node_service
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    
+    ports:
+      - '3000:80'
+    volumes:
+      - ./Frontend:/Frontend
+    depends_on:
+      - backend
+
+volumes:
+  data-sara:
