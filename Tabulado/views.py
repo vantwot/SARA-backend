@@ -128,3 +128,15 @@ class TabuladoViewSet(ModelViewSet):
         tabulado.save()
 
         return Response({"message": "Se ha actualizado la nota"})
+
+
+    @action(methods=['get'], detail=True, url_path='StudentTabular')
+    def Student_Tabular(self, request, pk=None):
+        tabulados = []
+        query = Tabulado.objects.raw('SELECT * FROM "Tabulado" AS t INNER JOIN "UserTabulado" AS u ON t.id = u.id_tabulado_id \
+                                         INNER JOIN "User" AS us ON us.id = u.id_user_id WHERE us.username= %s ORDER BY t.id DESC', params=[pk])
+        
+        for a in query:
+            tabulados.append({"semester:": a.semester, "lost_credits": a.lost_credits, "earned_credits": a.earned_credits, "promedio": a.promedio, "courses": a.courses})
+
+        return Response(tabulados)
