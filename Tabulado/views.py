@@ -58,6 +58,58 @@ class TabuladoViewSet(ModelViewSet):
         student = User.objects.filter(username=data_request['code'])
         tabular = Tabulado.objects.get(pk=data_request['tabular'])
 
+    @action(methods=['put'], detail=True, url_path='UpdateMyTabular')
+    def UpdateMyTabular(self,request,pk = None):
+        request_obj = json.loads(request.body)
+        courses = request_obj['courses']
+        asignatura = []
+
+        if len(courses) != 0:
+            asignatura = self.create_courses(courses)
+
+        tabular = Tabulado.objects.get(pk=pk)
+        tabular_serializar = self.get_serializer(tabular)
+
+        courses = tabular_serializar.data['courses']
+
+        for a in range(0, len(asignatura), 2):
+            adicionar = True
+            for i in range(0, len(courses), 2):
+                if courses[i]['code'] == asignatura[a]['code']:
+                    adicionar = False
+            if adicionar:
+                courses.append(asignatura[a])
+                courses.append(asignatura[a+1])
+
+        tabular.courses = courses
+
+        tabular.save()
+
+        return Response({"message": "Se ha adicionado las asignaturas al tabulado"})
+    
+    @action(methods=['put'], detail=True, url_path='DeleteMyTabular')
+    def DeleteMyTabular(self,request,pk = None):
+        request_obj = json.loads(request.body)
+        asignatura = request_obj['courses']
+
+        tabular = Tabulado.objects.get(pk=pk)
+        tabular_serializar = self.get_serializer(tabular)
+
+        courses = tabular_serializar.data['courses']
+        
+        longitud = len(courses)
+        for a in range(0, longitud, 2):
+            if a < longitud:
+                if courses[a]['code'] == asignatura[0] and courses[a]['group'] == asignatura[1]:
+                    courses.pop(a)
+                    courses.pop(a)
+                    longitud -= 2
+
+        tabular.courses = courses
+
+        tabular.save()
+
+        return Response({"message": "Se ha eliminado la asignatura del tabulado"})
 
     @action(methods=['put'], detail=False, url_path='UpdateGrade')
     def UpdateGrade(self, request):
