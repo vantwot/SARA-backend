@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'Usuario',
     'Asignatura',
     'corsheaders',
-    'Tabulado'
+    'Tabulado',
+    'coverage'
 ]
 
 SIMPLE_JWT = {

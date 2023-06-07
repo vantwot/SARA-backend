@@ -21,6 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Token_app.urls')),
     path('', include('Usuario.routers')),
-    path('', include('Asignatura.routers')),
+    path('', include(('Asignatura.routers', 'Asignatura'), namespace='Asignatura')),
     path('', include('Tabulado.routers'))
 ]
