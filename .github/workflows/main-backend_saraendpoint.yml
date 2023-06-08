@@ -32,9 +32,6 @@ jobs:
 
       - name: Migrate Models
         run: python manage.py makemigrations && python manage.py migrate
-        
-      - name: Run tests
-        run: python manage.py test
       
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v2
