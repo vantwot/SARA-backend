@@ -18,7 +18,7 @@ class AsignaturaViewSet(ModelViewSet):
     def actualizar(self, request, pk=None):
         asignatura = self.get_object()
         asignatura_serializer = AsignaturaSerializer(asignatura, data=request.data, partial=True)
-        if asignatura_serializer.is_valid():
+        if asignatura_serializer.is_valid(raise_exception=True):
             asignatura_serializer.save()
             return Response("Actualización exitosa")
         return Response("Actualización fallida")
