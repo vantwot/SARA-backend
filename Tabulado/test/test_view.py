@@ -36,7 +36,12 @@ class AsignaturaTestView(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 405)
 
-    def test_url_add_course(self):
-        url = "/Tabular/"+ str(self.tabulado.id) +"/UpdateMyTabular/"
+    def test_url_remove_course(self):
+        url = "/Tabular/"+ str(self.tabulado.id) +"/DeleteMyTabular/"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 405)
+
+    def test_url_update_grade_course(self):
+        url = "/Tabular/UpdateGrade/"
         response = self.client.get(url)
         self.assertEqual(response.status_code, 405)
