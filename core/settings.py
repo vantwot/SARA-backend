@@ -14,6 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 import dj_database_url
 import os
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -122,6 +123,10 @@ DATABASES = {
         'PASSWORD': 'ASpclb1GbR2wQqU7j4xiKEsovbpWsh3u',
         'HOST': 'babar.db.elephantsql.com', 
         'PORT': '5432',
+    },
+    'test': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
     }
 }
 
@@ -184,4 +189,8 @@ AUTH_USER_MODEL = 'Usuario.User'
 CORS_ALLOW_ALL_ORIGINS= True
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+if 'test' in sys.argv:
+    DATABASES['default'] = DATABASES['test']
+
 
