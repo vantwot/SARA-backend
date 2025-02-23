@@ -118,11 +118,11 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'xejxgcji', 
-        'USER': 'xejxgcji', 
-        'PASSWORD': 'ASpclb1GbR2wQqU7j4xiKEsovbpWsh3u',
-        'HOST': 'babar.db.elephantsql.com', 
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME'), 
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'), 
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     },
     'test': {
         'ENGINE': 'django.db.backends.sqlite3',
